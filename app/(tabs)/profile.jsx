@@ -159,20 +159,7 @@ const Profile = () => {
         </View>
 
         {/* Footer */}
-        <View style={{
-          alignItems: 'center',
-          paddingVertical: 32,
-          paddingBottom: 100
-        }}>
-          <Text style={{
-            fontSize: 12,
-            color: colors.textSecondary,
-            textAlign: 'center'
-          }}>
-            MedTracker v1.0.0{'\n'}
-            © 2024 All rights reserved
-          </Text>
-        </View>
+        <Footer paddingBottom={100} />
       </ScrollView>
 
       {/* Modals */}

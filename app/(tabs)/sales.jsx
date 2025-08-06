@@ -282,7 +282,7 @@ const SalesHeader = ({ colors, onAddMedicine }) => (
       }}
       activeOpacity={0.8}
     >
-      <Ionicons name="medkit" size={18} color="#fff" />
+      <Ionicons name="medkit-outline" size={18} color="#fff" />
     </TouchableOpacity>
   </View>
 );

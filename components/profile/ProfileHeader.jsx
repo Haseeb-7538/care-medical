@@ -160,7 +160,7 @@ export default function ProfileHeader({
               resizeMode="cover"
             />
           ) : (
-            <Ionicons name="person" size={50} color={colors.icon} />
+            <Ionicons name="person-outline" size={50} color={colors.icon} />
           )}
         </View>
         
@@ -178,7 +178,7 @@ export default function ProfileHeader({
             borderWidth: 3,
             borderColor: colors.cardBackground
           }}>
-            <Ionicons name="camera" size={20} color="#fff" />
+            <Ionicons name="camera-outline" size={20} color="#fff" />
           </View>
         )}
       </TouchableOpacity>

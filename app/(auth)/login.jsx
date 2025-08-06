@@ -18,6 +18,7 @@ import logo from "../../assets/images/logo.png";
 import EmailInput from "../../components/auth/EmailInput";
 import ForgotPasswordLink from "../../components/auth/ForgotPasswordLink";
 import PasswordInput from "../../components/auth/PasswordInput";
+import Footer from "../../components/common/Footer";
 import SaveButton from "../../components/common/SaveButton";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";
@@ -26,7 +27,6 @@ const Login = () => {
   const router = useRouter();
   const { colors } = useTheme();
   const { login, isAuthenticated, isLoading } = useAuth();
-  const currentYear = new Date().getFullYear();
   
   // Form state
   const [showPassword, setShowPassword] = useState(false);
@@ -105,16 +105,7 @@ const Login = () => {
           <View style={{ paddingHorizontal: 16, paddingVertical: 20 }}>
             {/* Logo and Welcome Text */}
             <View style={{ alignItems: 'center', marginBottom: 20 }}>
-              <Image source={logo} style={{ width: 250, height: 150 }} />
-              <Text style={{
-                fontSize: 28,
-                fontWeight: 'bold',
-                color: colors.text,
-                marginTop: 16,
-                textAlign: 'center'
-              }}>
-                Welcome Back
-              </Text>
+              <Image source={logo} style={{ width: 250, height: 120 }} />
               <Text style={{
                 fontSize: 16,
                 color: colors.textSecondary,
@@ -158,15 +149,7 @@ const Login = () => {
             </View>
 
             {/* Footer */}
-            <View style={{ alignItems: 'center', marginTop: 32 }}>
-              <Text style={{
-                fontSize: 12,
-                color: colors.textSecondary,
-                textAlign: 'center'
-              }}>
-                © {currentYear} MedTracker. All rights reserved.
-              </Text>
-            </View>
+            <Footer style={{ marginTop: 150 }} />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
