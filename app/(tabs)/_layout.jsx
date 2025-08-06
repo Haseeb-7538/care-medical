@@ -12,14 +12,20 @@ export default function TabsLayout() {
   const { isAuthenticated, isLoading } = useAuth();
 
   useEffect(() => {
-    console.log('TabsLayout: isLoading:', isLoading, 'isAuthenticated:', isAuthenticated);
+    console.log('TabsLayout: Authentication state check - isLoading:', isLoading, 'isAuthenticated:', isAuthenticated);
     
+    // Only redirect when loading is complete and user is not authenticated
     if (!isLoading && !isAuthenticated) {
       console.log('TabsLayout: User not authenticated, redirecting to login');
       router.replace("/(auth)/login");
+    } else if (!isLoading && isAuthenticated) {
+      console.log('TabsLayout: User authenticated, staying in tabs');
+    } else {
+      console.log('TabsLayout: Still checking authentication state...');
     }
   }, [isAuthenticated, isLoading, router]);
 
+  // Show loading state while checking authentication
   if (isLoading) {
     return (
       <View style={{
@@ -28,19 +34,20 @@ export default function TabsLayout() {
         alignItems: 'center',
         backgroundColor: colors.background
       }}>
-        <Text style={{ color: colors.text, fontSize: 16 }}>Authenticating...</Text>
+        <Text style={{ color: colors.text, fontSize: 16 }}>Verifying access...</Text>
       </View>
     );
   }
 
+  // Don't render tabs if not authenticated (will redirect)
   if (!isAuthenticated) {
-    return null; // Will redirect to login
+    return null;
   }
 
   const tabBarBackground = () => (
     <BlurView
       intensity={Platform.OS === "ios" ? 80 : 50}
-      tint={colors.mode === "dark" ? "dark" : "light"}
+      tint={colors.mode === "dark" ? "dark" : "light"} // Fixed: use colors.mode
       style={{
         flex: 1,
         borderTopLeftRadius: 18,
@@ -55,8 +62,8 @@ export default function TabsLayout() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false, // Hide titles
-        tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.tabDefault,
+        tabBarActiveTintColor: colors.primary, // ✅ Correct: #00BFA6
+        tabBarInactiveTintColor: colors.tabDefault, // ✅ Fixed: Now theme-specific
         tabBarStyle: {
           position: "absolute",
           bottom: 0, // Stick to bottom
@@ -126,5 +133,7 @@ export default function TabsLayout() {
     </Tabs>
   );
 }
+
+
 
 

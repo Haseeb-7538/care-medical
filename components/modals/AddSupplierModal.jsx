@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import {
-  ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
   Modal,
@@ -10,10 +9,11 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import { useTheme } from "../../contexts/ThemeContext";
 import { supabase } from "../../lib/supabase";
+import SaveButton from "../common/SaveButton";
 
 const AddSupplierModal = ({ visible, onClose, onAdded }) => {
   const { colors, isDarkMode } = useTheme();
@@ -273,47 +273,12 @@ const AddSupplierModal = ({ visible, onClose, onAdded }) => {
               </View>
             </View>
 
-            {/* Save Button */}
-            <TouchableOpacity
+            <SaveButton
               onPress={handleSave}
-              disabled={loading}
-              style={{
-                backgroundColor: loading ? colors.textSecondary : colors.secondary,
-                paddingVertical: 16,
-                borderRadius: 16,
-                shadowColor: colors.secondary,
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.3,
-                shadowRadius: 10,
-                elevation: 8,
-                opacity: loading ? 0.7 : 1,
-                marginBottom: 20
-              }}
-              activeOpacity={0.8}
-            >
-              {loading ? (
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                  <ActivityIndicator color="#fff" size="small" />
-                  <Text style={{
-                    color: '#fff',
-                    fontWeight: '600',
-                    fontSize: 16,
-                    marginLeft: 8
-                  }}>
-                    Adding Supplier...
-                  </Text>
-                </View>
-              ) : (
-                <Text style={{
-                  color: '#fff',
-                  fontWeight: '600',
-                  textAlign: 'center',
-                  fontSize: 16
-                }}>
-                  Add Supplier
-                </Text>
-              )}
-            </TouchableOpacity>
+              isLoading={loading}
+              buttonText="Add Supplier"
+              style={{ marginBottom: 20 }}
+            />
           </ScrollView>
         </KeyboardAvoidingView>
       </View>

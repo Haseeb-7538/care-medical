@@ -186,7 +186,7 @@ function inventory() {
             fontWeight: 'bold',
             color: colors.text
           }}>
-            Add Stock
+            Stocks
           </Text>
           <View style={{ flexDirection: 'row', gap: 8 }}>
             <TouchableOpacity
@@ -194,8 +194,8 @@ function inventory() {
               style={{
                 padding: 8,
                 borderRadius: 12,
-                backgroundColor: colors.secondary,
-                shadowColor: colors.secondary,
+                backgroundColor: colors.primary,
+                shadowColor: colors.primary,
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: 0.3,
                 shadowRadius: 4,
@@ -203,7 +203,7 @@ function inventory() {
               }}
               activeOpacity={0.8}
             >
-              <Ionicons name="person-add-outline" size={18} color={colors.textDark} />
+              <Ionicons name="person-add-outline" size={18} color="#fff" />
             </TouchableOpacity>
           </View>
         </View>

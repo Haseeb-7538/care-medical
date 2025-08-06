@@ -14,7 +14,7 @@ function LoadingScreen() {
       alignItems: 'center',
       backgroundColor: colors.background
     }}>
-      <Text style={{ color: colors.text, fontSize: 16 }}>Loading...</Text>
+      <Text style={{ color: colors.text, fontSize: 16 }}>Initializing app...</Text>
     </View>
   );
 }
@@ -22,36 +22,14 @@ function LoadingScreen() {
 function AppContent() {
   const { isLoading } = useAuth();
   
+  // Show loading screen while auth is being initialized
   if (isLoading) {
     return <LoadingScreen />;
   }
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen
-        name="index"
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="(auth)"
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="(tabs)"
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="(screens)"
-        options={{
-          headerShown: false,
-        }}
-      />
+      <Stack.Screen name="index" />
     </Stack>
   );
 }
@@ -65,6 +43,9 @@ export default function RootLayout() {
     </ThemeProvider>
   );
 }
+
+
+
 
 
 

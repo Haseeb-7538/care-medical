@@ -1,5 +1,6 @@
-import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import { Text, View } from "react-native";
 import { useTheme } from "../../contexts/ThemeContext";
+import SaveButton from "./SaveButton";
 
 export default function StickyFooter({
   totalAmount,
@@ -49,52 +50,13 @@ export default function StickyFooter({
           {currencySymbol}{totalAmount.toFixed(2)}
         </Text>
       </View>
-      <TouchableOpacity
+      <SaveButton
         onPress={onSave}
-        style={{
-          backgroundColor: colors.primary,
-          paddingVertical: 12,
-          borderRadius: 12,
-          shadowColor: colors.primary,
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: 0.3,
-          shadowRadius: 10,
-          elevation: 8,
-        }}
-        activeOpacity={0.8}
-        disabled={isLoading}
-      >
-        {isLoading ? (
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <ActivityIndicator color="#fff" size="small" />
-            <Text
-              style={{
-                color: "#fff",
-                fontWeight: "600",
-                fontSize: 14,
-                marginLeft: 6,
-              }}
-            >
-              Saving...
-            </Text>
-          </View>
-        ) : (
-          <Text style={{
-            color: '#fff',
-            fontWeight: '600',
-            textAlign: 'center',
-            fontSize: 16
-          }}>
-            {buttonText}
-          </Text>
-        )}
-      </TouchableOpacity>
+        isLoading={isLoading}
+        buttonText={buttonText}
+        style={{ paddingVertical: 12 }}
+      />
     </View>
   );
 }
+

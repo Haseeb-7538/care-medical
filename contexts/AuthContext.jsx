@@ -86,31 +86,33 @@ export const AuthProvider = ({ children }) => {
 
     const initializeAuth = async () => {
       try {
+        console.log('AuthContext: Initializing authentication state...');
         const { data: { session }, error } = await supabase.auth.getSession();
         
         if (!mounted) return;
         
         if (error) {
-          console.error('Error getting session:', error);
+          console.error('AuthContext: Error getting session:', error);
           setUser(null);
           setIsAuthenticated(false);
         } else if (session?.user) {
-          console.log('Initial session found:', session.user.email);
+          console.log('AuthContext: Initial session found for user:', session.user.email);
           setUser(session.user);
           setIsAuthenticated(true);
         } else {
-          console.log('No initial session found');
+          console.log('AuthContext: No initial session found');
           setUser(null);
           setIsAuthenticated(false);
         }
       } catch (error) {
-        console.error('Auth initialization error:', error);
+        console.error('AuthContext: Auth initialization error:', error);
         if (mounted) {
           setUser(null);
           setIsAuthenticated(false);
         }
       } finally {
         if (mounted) {
+          console.log('AuthContext: Authentication initialization complete');
           setIsLoading(false);
         }
       }
@@ -122,14 +124,16 @@ export const AuthProvider = ({ children }) => {
     // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log('Auth state changed:', event, session?.user?.email || 'no user');
+        console.log('AuthContext: Auth state changed - Event:', event, 'User:', session?.user?.email || 'no user');
         
         if (!mounted) return;
         
         if (session?.user) {
+          console.log('AuthContext: Setting authenticated state for user:', session.user.email);
           setUser(session.user);
           setIsAuthenticated(true);
         } else {
+          console.log('AuthContext: Clearing authenticated state');
           setUser(null);
           setIsAuthenticated(false);
         }
@@ -158,5 +162,6 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
 
 

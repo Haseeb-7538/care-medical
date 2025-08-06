@@ -20,10 +20,18 @@ module.exports = {
         // Background Colors
         bgLight: "#F4F9F9",        // Light mode background
         bgDark: "#021F2B",         // Dark mode background
+        cardLight: "#FFFFFF",      // Light mode card background
+        cardDark: "#005F73",       // Dark mode card background
 
         // Text Colors
         textLight: "#0A2E36",      // Text in light mode
         textDark: "#E3FDFD",       // Text in dark mode
+        textSecondaryLight: "rgba(10, 46, 54, 0.7)",    // Secondary text light
+        textSecondaryDark: "rgba(227, 253, 253, 0.7)",  // Secondary text dark
+
+        // Border Colors
+        borderLight: "rgba(0, 0, 0, 0.05)",     // Light mode borders
+        borderDark: "rgba(255, 255, 255, 0.1)", // Dark mode borders
 
         // Icon & Tab Colors
         iconLight: "#4B778D",      // Icons in light mode

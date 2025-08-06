@@ -13,6 +13,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import AutocompleteInput from "../../components/common/AutocompleteInput";
 import MedicineList from "../../components/common/MedicineList";
 import StickyFooter from "../../components/common/StickyFooter";
 import AddMedicineModal from "../../components/modals/AddMedicineModal";
@@ -265,7 +266,7 @@ const SalesHeader = ({ colors, onAddMedicine }) => (
     }}
   >
     <Text style={{ fontSize: 20, fontWeight: "bold", color: colors.text }}>
-      Sale
+      Sales
     </Text>
     <TouchableOpacity
       onPress={onAddMedicine}
@@ -289,30 +290,23 @@ const SalesHeader = ({ colors, onAddMedicine }) => (
 // Patient name input component
 const PatientNameInput = ({ colors, isDarkMode, patientName, setPatientName }) => (
   <View style={{ marginBottom: 16 }}>
-    <View style={{
-      backgroundColor: colors.cardBackground,
-      borderRadius: 12,
-      borderWidth: 1,
-      borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)',
-      shadowColor: colors.secondary,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
-      elevation: 2,
+    <Text style={{
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 8
     }}>
-      <TextInput
-        style={{
-          paddingHorizontal: 16,
-          paddingVertical: 12,
-          fontSize: 16,
-          color: colors.text
-        }}
-        placeholder="Enter patient name"
-        placeholderTextColor={colors.textSecondary}
-        value={patientName}
-        onChangeText={setPatientName}
-      />
-    </View>
+      Patient Name
+    </Text>
+    <AutocompleteInput
+      items={[]} // Empty array since we don't have patient suggestions
+      placeholder="Enter patient name"
+      value={patientName}
+      onChangeText={setPatientName}
+      onSelectItem={(item) => {
+        setPatientName(item.title);
+      }}
+    />
   </View>
 );
 
@@ -327,34 +321,19 @@ const SaleReasonInput = ({ colors, isDarkMode, saleReason, setSaleReason }) => (
     }}>
       Reason for Sale
     </Text>
-    <View style={{
-      backgroundColor: colors.cardBackground,
-      borderRadius: 12,
-      borderWidth: 1,
-      borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)',
-      shadowColor: colors.secondary,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
-      elevation: 2,
-    }}>
-      <TextInput
-        style={{
-          paddingHorizontal: 16,
-          paddingVertical: 12,
-          fontSize: 16,
-          color: colors.text,
-          minHeight: 80,
-          textAlignVertical: 'top'
-        }}
-        placeholder="Enter reason for sale or additional notes"
-        placeholderTextColor={colors.textSecondary}
-        value={saleReason}
-        onChangeText={setSaleReason}
-        multiline
-        numberOfLines={3}
-      />
-    </View>
+    <TextInput
+      className="bg-bgLight dark:bg-bgDark text-textLight dark:text-textDark border border-iconLight dark:border-iconDark rounded-md px-3 py-2.5"
+      style={{ 
+        minHeight: 80,
+        textAlignVertical: 'top'
+      }}
+      placeholder="Enter reason for sale or additional notes"
+      placeholderTextColor="#A1B5C1"
+      value={saleReason}
+      onChangeText={setSaleReason}
+      multiline
+      numberOfLines={3}
+    />
   </View>
 );
 

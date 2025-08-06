@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import {
-  ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
   Modal,
@@ -10,11 +9,12 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import AutocompleteInput from "../../components/common/AutocompleteInput";
 import { useTheme } from "../../contexts/ThemeContext";
 import { supabase } from "../../lib/supabase";
+import SaveButton from "../common/SaveButton";
 
 const AddMedicineModal = ({ visible, onClose, onAdded, medicinesList = [] }) => {
   const { colors, isDarkMode } = useTheme();
@@ -448,46 +448,12 @@ const AddMedicineModal = ({ visible, onClose, onAdded, medicinesList = [] }) => 
             </View>
 
             {/* Save Button */}
-            <TouchableOpacity
+            <SaveButton
               onPress={handleSave}
-              disabled={isSubmitting}
-              style={{
-                backgroundColor: isSubmitting ? colors.textSecondary : colors.primary,
-                paddingVertical: 16,
-                borderRadius: 16,
-                shadowColor: colors.primary,
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.3,
-                shadowRadius: 10,
-                elevation: 8,
-                opacity: isSubmitting ? 0.7 : 1,
-                marginBottom: 20
-              }}
-              activeOpacity={0.8}
-            >
-              {isSubmitting ? (
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                  <ActivityIndicator color="#fff" size="small" />
-                  <Text style={{
-                    color: '#fff',
-                    fontWeight: '600',
-                    fontSize: 16,
-                    marginLeft: 8
-                  }}>
-                    Saving Medicine...
-                  </Text>
-                </View>
-              ) : (
-                <Text style={{
-                  color: '#fff',
-                  fontWeight: '600',
-                  textAlign: 'center',
-                  fontSize: 16
-                }}>
-                  Save Medicine
-                </Text>
-              )}
-            </TouchableOpacity>
+              isLoading={isSubmitting}
+              buttonText="Add Medicine"
+              style={{ marginBottom: 20 }}
+            />
           </ScrollView>
         </KeyboardAvoidingView>
       </View>

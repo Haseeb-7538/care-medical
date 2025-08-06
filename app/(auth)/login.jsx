@@ -1,19 +1,24 @@
-import { Ionicons } from "@expo/vector-icons";
+// React and React Native imports
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
+  Alert,
   Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   StatusBar,
   Text,
-  TextInput,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+// Local imports
 import logo from "../../assets/images/logo.png";
+import EmailInput from "../../components/auth/EmailInput";
+import ForgotPasswordLink from "../../components/auth/ForgotPasswordLink";
+import PasswordInput from "../../components/auth/PasswordInput";
+import SaveButton from "../../components/common/SaveButton";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";
 
@@ -22,6 +27,8 @@ const Login = () => {
   const { colors } = useTheme();
   const { login, isAuthenticated, isLoading } = useAuth();
   const currentYear = new Date().getFullYear();
+  
+  // Form state
   const [showPassword, setShowPassword] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -29,22 +36,35 @@ const Login = () => {
 
   // Redirect if already authenticated
   useEffect(() => {
-    console.log('Login: isLoading:', isLoading, 'isAuthenticated:', isAuthenticated);
+    console.log('Login: Authentication state check - isLoading:', isLoading, 'isAuthenticated:', isAuthenticated);
     
     if (!isLoading && isAuthenticated) {
-      console.log('Login: User already authenticated, redirecting to tabs');
+      console.log('Login: User already authenticated, redirecting to main app');
       router.replace("/(tabs)/overview");
+    } else if (!isLoading && !isAuthenticated) {
+      console.log('Login: User not authenticated, staying on login screen');
+    } else {
+      console.log('Login: Still checking authentication state...');
     }
   }, [isAuthenticated, isLoading, router]);
 
   const handleLogin = async () => {
+    if (!email.trim() || !password.trim()) {
+      Alert.alert("Error", "Please enter both email and password");
+      return;
+    }
+
     setLoginLoading(true);
+    console.log("Login: Attempting login for:", email);
+    
     const result = await login(email, password);
     
     if (result.success) {
-      // Don't manually navigate - let the auth state change handle it
-      console.log("Login successful, waiting for auth state change...");
+      console.log("Login: Login successful, auth state will handle redirection");
+    } else {
+      console.log("Login: Login failed:", result.error);
     }
+    
     setLoginLoading(false);
   };
 
@@ -83,7 +103,7 @@ const Login = () => {
           showsVerticalScrollIndicator={false}
         >
           <View style={{ paddingHorizontal: 16, paddingVertical: 20 }}>
-            {/* Logo */}
+            {/* Logo and Welcome Text */}
             <View style={{ alignItems: 'center', marginBottom: 20 }}>
               <Image source={logo} style={{ width: 250, height: 150 }} />
               <Text style={{
@@ -116,126 +136,35 @@ const Login = () => {
               shadowRadius: 12,
               elevation: 8,
             }}>
-              {/* Email Input */}
-              <View style={{ marginBottom: 20 }}>
-                <Text style={{
-                  fontSize: 14,
-                  fontWeight: '600',
-                  color: colors.text,
-                  marginBottom: 8
-                }}>
-                  Email Address
-                </Text>
-                <View style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  backgroundColor: colors.background,
-                  borderRadius: 12,
-                  paddingHorizontal: 16,
-                  paddingVertical: 12,
-                  borderWidth: 1,
-                  borderColor: colors.textSecondary + '30'
-                }}>
-                  <Ionicons name="mail-outline" size={20} color={colors.icon} />
-                  <TextInput
-                    style={{
-                      flex: 1,
-                      marginLeft: 12,
-                      fontSize: 16,
-                      color: colors.text
-                    }}
-                    placeholder="Enter your email"
-                    placeholderTextColor={colors.textSecondary}
-                    value={email}
-                    onChangeText={setEmail}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                  />
-                </View>
-              </View>
+              <EmailInput 
+                value={email}
+                onChangeText={setEmail}
+              />
+              
+              <PasswordInput
+                value={password}
+                onChangeText={setPassword}
+                showPassword={showPassword}
+                onTogglePassword={() => setShowPassword(!showPassword)}
+              />
 
-              {/* Password Input */}
-              <View style={{ marginBottom: 24 }}>
-                <Text style={{
-                  fontSize: 14,
-                  fontWeight: '600',
-                  color: colors.text,
-                  marginBottom: 8
-                }}>
-                  Password
-                </Text>
-                <View style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  backgroundColor: colors.background,
-                  borderRadius: 12,
-                  paddingHorizontal: 16,
-                  paddingVertical: 12,
-                  borderWidth: 1,
-                  borderColor: colors.textSecondary + '30'
-                }}>
-                  <Ionicons name="lock-closed-outline" size={20} color={colors.icon} />
-                  <TextInput
-                    style={{
-                      flex: 1,
-                      marginLeft: 12,
-                      fontSize: 16,
-                      color: colors.text
-                    }}
-                    placeholder="Enter your password"
-                    placeholderTextColor={colors.textSecondary}
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry={!showPassword}
-                  />
-                  <TouchableOpacity
-                    onPress={() => setShowPassword(!showPassword)}
-                    style={{ padding: 4 }}
-                  >
-                    <Ionicons
-                      name={showPassword ? "eye-outline" : "eye-off-outline"}
-                      size={20}
-                      color={colors.icon}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
+              <ForgotPasswordLink />
 
-              {/* Login Button */}
-              <TouchableOpacity
+              <SaveButton
                 onPress={handleLogin}
-                disabled={loginLoading}
-                style={{
-                  backgroundColor: colors.primary,
-                  paddingVertical: 16,
-                  borderRadius: 12,
-                  shadowColor: colors.primary,
-                  shadowOffset: { width: 0, height: 4 },
-                  shadowOpacity: 0.3,
-                  shadowRadius: 10,
-                  elevation: 8,
-                  opacity: loginLoading ? 0.7 : 1
-                }}
-                activeOpacity={0.8}
-              >
-                <Text style={{
-                  color: '#FFFFFF',
-                  fontSize: 18,
-                  fontWeight: '600',
-                  textAlign: 'center'
-                }}>
-                  {loginLoading ? "Signing In..." : "Sign In"}
-                </Text>
-              </TouchableOpacity>
+                isLoading={loginLoading}
+                buttonText="Sign In"
+              />
             </View>
 
             {/* Footer */}
             <View style={{ alignItems: 'center', marginTop: 32 }}>
               <Text style={{
                 fontSize: 12,
-                color: colors.textSecondary
+                color: colors.textSecondary,
+                textAlign: 'center'
               }}>
-                © {currentYear} Care Medical & Pharma Clinic
+                © {currentYear} MedTracker. All rights reserved.
               </Text>
             </View>
           </View>

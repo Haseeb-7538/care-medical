@@ -10,19 +10,23 @@ export default function Index() {
   const { isAuthenticated, isLoading } = useAuth();
 
   useEffect(() => {
-    console.log('Index: isLoading:', isLoading, 'isAuthenticated:', isAuthenticated);
+    console.log('Index: Authentication state check - isLoading:', isLoading, 'isAuthenticated:', isAuthenticated);
     
+    // Only proceed with redirection when loading is complete
     if (!isLoading) {
       if (isAuthenticated) {
-        console.log('Index: Redirecting to tabs/overview');
+        console.log('Index: User authenticated, redirecting to main app');
         router.replace("/(tabs)/overview");
       } else {
-        console.log('Index: Redirecting to auth/login');
+        console.log('Index: User not authenticated, redirecting to login');
         router.replace("/(auth)/login");
       }
+    } else {
+      console.log('Index: Still checking authentication state...');
     }
   }, [isAuthenticated, isLoading, router]);
 
+  // Show loading state while checking authentication
   if (isLoading) {
     return (
       <View style={{
@@ -31,12 +35,14 @@ export default function Index() {
         alignItems: 'center',
         backgroundColor: colors.background
       }}>
-        <Text style={{ color: colors.text, fontSize: 16 }}>Loading...</Text>
+        <Text style={{ color: colors.text, fontSize: 16 }}>Checking authentication...</Text>
       </View>
     );
   }
 
+  // Return null while redirecting to prevent flash
   return null;
 }
+
 
 

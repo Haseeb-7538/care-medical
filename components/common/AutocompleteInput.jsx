@@ -86,7 +86,7 @@ export default function AutocompleteInput({
       
       {showSuggestions && filteredItems.length > 0 && (
         <View className="absolute top-full left-0 right-0 bg-bgLight dark:bg-bgDark border border-iconLight dark:border-iconDark rounded-md mt-0.5 max-h-48 z-[9999] shadow-card">
-          {filteredItems.slice(0, 5).map((item, index) => (
+          {filteredItems.slice(0, 4).map((item, index) => (
             <View key={item.id || index}>
               <Pressable
                 onPress={() => handleSelectItem(item)}

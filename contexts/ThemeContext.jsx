@@ -55,6 +55,7 @@ export const ThemeProvider = ({ children }) => {
     isDarkMode,
     toggleTheme,
     isLoading,
+    mode: isDarkMode ? 'dark' : 'light', // Add mode property for BlurView
     colors: {
       // Background colors
       background: isDarkMode ? '#021F2B' : '#F4F9F9', // bgDark : bgLight
@@ -67,9 +68,9 @@ export const ThemeProvider = ({ children }) => {
       // Icon colors
       icon: isDarkMode ? '#7FDBDA' : '#4B778D', // iconDark : iconLight
       
-      // Tab colors
-      tabDefault: isDarkMode ? '#44626A' : '#A1B5C1', // tabDark : tabDefault
-      tabActive: '#00BFA6', // primary (same for both themes)
+      // Tab colors - Fixed mapping
+      tabDefault: isDarkMode ? '#44626A' : '#A1B5C1', // Theme-specific inactive colors
+      tabActive: '#00BFA6', // Primary color for active tabs
       
       // Brand colors
       primary: '#00BFA6',
